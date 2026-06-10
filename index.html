@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OnlyVulns — Coordinated disclosure for PoCs</title>
+  <meta
+    name="description"
+    content="OnlyVulns is a free, open-source coordinated disclosure platform for PoCs, write-ups, vendor communication records, and researcher support."
+  />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background:
+        radial-gradient(circle at 18% 6%, rgba(14, 165, 233, 0.20), transparent 28rem),
+        radial-gradient(circle at 86% 0%, rgba(236, 72, 153, 0.15), transparent 24rem),
+        radial-gradient(circle at 50% 90%, rgba(37, 99, 235, 0.13), transparent 36rem),
+        linear-gradient(180deg, #050816 0%, #070b1d 48%, #020617 100%);
+    }
+
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.055) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 78%);
+    }
+
+    .card-glow {
+      box-shadow:
+        0 0 0 1px rgba(125, 211, 252, 0.10),
+        0 26px 90px rgba(0, 0, 0, 0.45),
+        0 0 72px rgba(37, 99, 235, 0.14);
+    }
+
+    .button-glow {
+      box-shadow: 0 0 36px rgba(37, 99, 235, 0.32);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen overflow-x-hidden text-slate-100 antialiased">
+  <div class="grid-bg pointer-events-none fixed inset-0"></div>
+
+  <header class="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
+    <a href="#" class="flex items-center gap-3">
+      <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-600 text-white button-glow">
+        <span class="text-lg font-black">OV</span>
+      </div>
+      <div>
+        <div class="text-lg font-semibold tracking-tight text-white">OnlyVulns</div>
+        <div class="text-xs text-slate-400">Public disclosure pages for security research.</div>
+      </div>
+    </a>
+
+    <nav class="hidden items-center gap-7 text-sm font-medium text-slate-300 md:flex">
+      <a class="hover:text-sky-300" href="#how">How it works</a>
+      <a class="hover:text-sky-300" href="#why">Why</a>
+      <a class="hover:text-sky-300" href="#support">Support</a>
+      <a class="rounded-xl border border-white/10 bg-white/5 px-3 py-2 hover:border-sky-300/40 hover:text-sky-300" href="https://github.com/Perkins-Fund/OnlyVulns" target="_blank" rel="noreferrer">GitHub</a>
+      <a class="rounded-xl border border-white/10 bg-white/5 px-3 py-2 hover:border-sky-300/40 hover:text-sky-300" href="https://x.com/perkinsfund" target="_blank" rel="noreferrer">X</a>
+    </nav>
+  </header>
+
+  <main class="relative z-10">
+    <section class="mx-auto grid max-w-6xl items-center gap-12 px-6 pb-20 pt-14 lg:grid-cols-[1.02fr_0.98fr] lg:pt-24">
+      <div>
+        <div class="inline-flex items-center gap-2 rounded-full border border-sky-400/20 bg-sky-400/10 px-4 py-2 text-sm font-medium text-sky-200">
+          <span class="h-2 w-2 rounded-full bg-pink-400"></span>
+          Coming soon · open source · nonprofit operated
+        </div>
+
+        <h1 class="mt-7 max-w-3xl text-5xl font-semibold tracking-tight text-white sm:text-6xl">
+          A dedicated place to publish vulnerability research.
+        </h1>
+
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+          OnlyVulns is being built for researchers who need more than a repo, a blog post, or a pile of screenshots. Upload the PoC, write the report, track the vendor conversation, set the clock, and control the release.
+        </p>
+
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+          <a
+            href="https://github.com/Perkins-Fund/OnlyVulns"
+            target="_blank"
+            rel="noreferrer"
+            class="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-500 button-glow"
+          >
+            Follow the build on GitHub
+          </a>
+          <a
+            href="https://x.com/perkinsfund"
+            target="_blank"
+            rel="noreferrer"
+            class="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-bold text-slate-100 transition hover:border-sky-300/40 hover:bg-sky-300/10 hover:text-sky-200"
+          >
+            Follow updates on X
+          </a>
+        </div>
+
+        <p class="mt-5 max-w-2xl text-sm leading-6 text-slate-400">
+          The goal is simple: make coordinated disclosure easier to document, easier to follow, and harder to lose.
+        </p>
+      </div>
+
+      <div class="card-glow rounded-[2rem] border border-white/10 bg-slate-950/72 p-5 backdrop-blur">
+        <div class="rounded-[1.5rem] border border-sky-400/10 bg-[#070b18] p-5">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <div class="text-sm font-semibold text-sky-300">Pending disclosure</div>
+              <h2 class="mt-2 text-2xl font-semibold tracking-tight text-white">
+                Example Product Authentication Bypass
+              </h2>
+            </div>
+            <span class="rounded-full border border-pink-400/20 bg-pink-400/10 px-3 py-1 text-xs font-semibold text-pink-200">
+              Embargoed
+            </span>
+          </div>
+
+          <div class="mt-6 grid gap-3 text-sm">
+            <div class="flex justify-between rounded-2xl border border-white/5 bg-white/[0.04] px-4 py-3">
+              <span class="text-slate-400">Company</span>
+              <span class="font-medium text-white">Example Corp</span>
+            </div>
+            <div class="flex justify-between rounded-2xl border border-white/5 bg-white/[0.04] px-4 py-3">
+              <span class="text-slate-400">Researcher</span>
+              <span class="font-medium text-white">@researcher</span>
+            </div>
+            <div class="flex justify-between rounded-2xl border border-white/5 bg-white/[0.04] px-4 py-3">
+              <span class="text-slate-400">Status</span>
+              <span class="font-medium text-white">Waiting to release</span>
+            </div>
+          </div>
+
+          <div class="mt-6 rounded-2xl border border-sky-400/20 bg-sky-400/10 p-5">
+            <div class="text-sm font-medium text-sky-100">Time left before waiting period</div>
+            <div class="mt-4 grid grid-cols-4 gap-2 text-center">
+              <div class="rounded-2xl bg-slate-950/80 px-3 py-4">
+                <div class="text-2xl font-semibold text-white">21</div>
+                <div class="text-xs text-slate-400">days</div>
+              </div>
+              <div class="rounded-2xl bg-slate-950/80 px-3 py-4">
+                <div class="text-2xl font-semibold text-white">06</div>
+                <div class="text-xs text-slate-400">hours</div>
+              </div>
+              <div class="rounded-2xl bg-slate-950/80 px-3 py-4">
+                <div class="text-2xl font-semibold text-white">42</div>
+                <div class="text-xs text-slate-400">min</div>
+              </div>
+              <div class="rounded-2xl bg-slate-950/80 px-3 py-4">
+                <div class="text-2xl font-semibold text-white">18</div>
+                <div class="text-xs text-slate-400">sec</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <div class="font-semibold text-white">Support the researcher</div>
+                <div class="text-sm text-slate-400">Tips go to the person behind the disclosure.</div>
+              </div>
+              <button class="rounded-2xl bg-pink-500 px-4 py-2 text-sm font-bold text-white transition hover:bg-pink-400">
+                Tip
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="border-y border-white/10 bg-slate-950/50 backdrop-blur">
+      <div class="mx-auto max-w-6xl px-6 py-20">
+        <div class="max-w-2xl">
+          <p class="text-sm font-semibold uppercase tracking-wide text-sky-300">How it works</p>
+          <h2 class="mt-3 text-3xl font-semibold tracking-tight text-white">
+            Create the record before the release goes live.
+          </h2>
+          <p class="mt-4 leading-7 text-slate-300">
+            The page can exist while the details stay private. People can see that a disclosure is pending without seeing the PoC before the release window.
+          </p>
+        </div>
+
+        <div class="mt-10 grid gap-5 md:grid-cols-3">
+          <article class="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+            <div class="text-sm font-semibold text-pink-300">01</div>
+            <h3 class="mt-3 text-lg font-semibold text-white">Upload the work</h3>
+            <p class="mt-2 leading-7 text-slate-300">
+              Add the PoC, technical write-up, affected product, company name, and timeline.
+            </p>
+          </article>
+
+          <article class="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+            <div class="text-sm font-semibold text-pink-300">02</div>
+            <h3 class="mt-3 text-lg font-semibold text-white">Keep the receipts</h3>
+            <p class="mt-2 leading-7 text-slate-300">
+              Track vendor outreach, replies, acknowledgements, notes, and status changes.
+            </p>
+          </article>
+
+          <article class="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+            <div class="text-sm font-semibold text-pink-300">03</div>
+            <h3 class="mt-3 text-lg font-semibold text-white">Release on purpose</h3>
+            <p class="mt-2 leading-7 text-slate-300">
+              When the timer ends, the disclosure enters a waiting period. The researcher can publish, cancel, or remove it.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="why" class="mx-auto max-w-6xl px-6 py-20">
+      <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wide text-sky-300">Why this exists</p>
+          <h2 class="mt-3 text-3xl font-semibold tracking-tight text-white">Disclosure should not depend on fragile workarounds.</h2>
+          <p class="mt-4 leading-7 text-slate-300">
+            Researchers often end up using private repos, notes apps, email threads, screenshots, and scheduled blog posts. That works until it does not. OnlyVulns is meant to give the whole process a home.
+          </p>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+            <h3 class="font-semibold text-white">Public pages</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">Show the disclosure status and timing before technical details are released.</p>
+          </div>
+          <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+            <h3 class="font-semibold text-white">Vendor logs</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">Keep the communication history attached to the disclosure record.</p>
+          </div>
+          <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+            <h3 class="font-semibold text-white">Researcher control</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">Cancel, remove, delay, or publish according to the release workflow.</p>
+          </div>
+          <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+            <h3 class="font-semibold text-white">Open development</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">
+              The code is public. Follow the repo, open issues, and watch the platform take shape.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="support" class="border-y border-white/10 bg-[#060917]">
+      <div class="mx-auto grid max-w-6xl gap-10 px-6 py-20 lg:grid-cols-2">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wide text-sky-300">Crowdsourced support</p>
+          <h2 class="mt-3 text-3xl font-semibold tracking-tight text-white">
+            Tip the researcher. Support the platform separately.
+          </h2>
+          <p class="mt-4 leading-7 text-slate-300">
+            The plan is to keep researcher tips and platform donations separate. People can reward good research directly, and separately help cover the infrastructure that keeps the platform online.
+          </p>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="rounded-3xl border border-pink-400/20 bg-pink-400/10 p-6">
+            <h3 class="text-lg font-semibold text-white">Researcher tips</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">
+              Support the person who found, documented, and disclosed the issue.
+            </p>
+          </div>
+          <div class="rounded-3xl border border-sky-400/20 bg-sky-400/10 p-6">
+            <h3 class="text-lg font-semibold text-white">Platform support</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">
+              Help fund hosting, storage, moderation, development, and nonprofit operations.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="coming-soon" class="mx-auto max-w-4xl px-6 py-20 text-center">
+      <div class="card-glow rounded-[2rem] border border-white/10 bg-slate-950/72 p-8 backdrop-blur sm:p-12">
+        <p class="text-sm font-semibold uppercase tracking-wide text-pink-300">Coming soon</p>
+        <h2 class="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">OnlyVulns is public while it is being built.</h2>
+        <p class="mx-auto mt-4 max-w-2xl leading-7 text-slate-300">
+          The GitHub repo is open now. Follow development, watch the roadmap, and open issues if there is something you think a disclosure platform needs before launch.
+        </p>
+
+        <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <a
+            href="https://github.com/Perkins-Fund/OnlyVulns"
+            target="_blank"
+            rel="noreferrer"
+            class="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-500"
+          >
+            View GitHub repo
+          </a>
+          <a
+            href="https://x.com/perkinsfund"
+            target="_blank"
+            rel="noreferrer"
+            class="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-bold text-slate-100 transition hover:border-sky-300/40 hover:bg-sky-300/10 hover:text-sky-200"
+          >
+            Follow @perkinsfund
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="relative z-10 border-t border-white/10 bg-slate-950">
+    <div class="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-8 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
+      <p>&copy; <span id="year"></span> OnlyVulns. Free and open-source coordinated disclosure.</p>
+      <p>
+        Operated by 501(c)(3) nonprofit PCEF —
+        <a class="font-semibold text-sky-300 hover:text-sky-200" href="https://perkinsfund.org" target="_blank" rel="noreferrer">perkinsfund.org</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
