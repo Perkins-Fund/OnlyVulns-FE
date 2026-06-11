@@ -1,512 +1,634 @@
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html class="scroll-smooth" lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
 
-  <title>OnlyVulns | Researcher-Controlled Vulnerability Disclosure</title>
-  <meta name="description" content="OnlyVulns is a nonprofit, open-source vulnerability disclosure platform for security researchers to preserve disclosure timelines, publish PoCs and technical write-ups, track vendor communication, and release advisories under researcher control." />
-  <meta name="keywords" content="vulnerability disclosure, security researchers, coordinated disclosure, proof of concept, CVSS, CWE, disclosure timeline, vendor communication, vendor reputation, researcher reputation, bug bounty transparency, threat intelligence feed" />
-  <meta name="author" content="OnlyVulns" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://onlyvulns.org/" />
+    <title>OnlyVulns | Researcher-Controlled Vulnerability Disclosure</title>
+    <meta content="OnlyVulns is a nonprofit, open-source vulnerability disclosure platform for security researchers to preserve disclosure timelines, publish PoCs and technical write-ups, track vendor communication, and release advisories under researcher control."
+          name="description"/>
+    <meta content="vulnerability disclosure, security researchers, coordinated disclosure, proof of concept, CVSS, CWE, disclosure timeline, vendor communication, vendor reputation, researcher reputation, bug bounty transparency, threat intelligence feed"
+          name="keywords"/>
+    <meta content="OnlyVulns" name="author"/>
+    <meta content="index, follow" name="robots"/>
+    <link href="https://onlyvulns.org/" rel="canonical"/>
+    <link href="https://onlyvulns.org/" rel="canonical"/>
+    <link href="/assets/favicon.ico" rel="icon" sizes="any"/>
+    <link href="/assets/favicon.ico" rel="shortcut icon"/>
 
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="OnlyVulns" />
-  <meta property="og:title" content="OnlyVulns | Researcher-Controlled Vulnerability Disclosure" />
-  <meta property="og:description" content="A researcher-first, open-source disclosure platform for PoCs, write-ups, timelines, CVSS metadata, vendor communication records, reputation signals, and public-interest advisories." />
-  <meta property="og:url" content="https://onlyvulns.org/" />
+    <meta content="website" property="og:type"/>
+    <meta content="OnlyVulns" property="og:site_name"/>
+    <meta content="OnlyVulns | Researcher-Controlled Vulnerability Disclosure" property="og:title"/>
+    <meta content="A researcher-first, open-source disclosure platform for PoCs, write-ups, timelines, CVSS metadata, vendor communication records, reputation signals, and public-interest advisories."
+          property="og:description"/>
+    <meta content="https://onlyvulns.org/" property="og:url"/>
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="OnlyVulns | Researcher-Controlled Vulnerability Disclosure" />
-  <meta name="twitter:description" content="Publish vulnerability research with embargoes, waiting periods, technical metadata, vendor timelines, reputation signals, and researcher-controlled release workflows." />
+    <meta content="summary_large_image" name="twitter:card"/>
+    <meta content="OnlyVulns | Researcher-Controlled Vulnerability Disclosure" name="twitter:title"/>
+    <meta content="Publish vulnerability research with embargoes, waiting periods, technical metadata, vendor timelines, reputation signals, and researcher-controlled release workflows."
+          name="twitter:description"/>
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "OnlyVulns",
-    "applicationCategory": "SecurityApplication",
-    "operatingSystem": "Web",
-    "description": "OnlyVulns is a nonprofit, open-source vulnerability disclosure platform built for security researchers to publish proof-of-concept research, technical write-ups, disclosure timelines, vendor communication records, CVSS metadata, CWE tags, remediation notes, reputation signals, and public security advisories.",
-    "url": "https://onlyvulns.org/",
-    "codeRepository": "https://github.com/Perkins-Fund/OnlyVulns",
-    "isAccessibleForFree": true,
-    "publisher": {
-      "@type": "NonprofitOrganization",
-      "name": "PCEF",
-      "url": "https://perkinsfund.org"
-    }
-  }
-  </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "OnlyVulns",
+            "applicationCategory": "SecurityApplication",
+            "operatingSystem": "Web",
+            "description": "OnlyVulns is a nonprofit, open-source vulnerability disclosure platform built for security researchers to publish proof-of-concept research, technical write-ups, disclosure timelines, vendor communication records, CVSS metadata, CWE tags, remediation notes, reputation signals, and public security advisories.",
+            "url": "https://onlyvulns.org/",
+            "codeRepository": "https://github.com/Perkins-Fund/OnlyVulns",
+            "isAccessibleForFree": true,
+            "publisher": {
+                "@type": "NonprofitOrganization",
+                "name": "PCEF",
+                "url": "https://perkinsfund.org"
+            }
+        }
+    </script>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root { color-scheme: dark; }
-    body {
-      background:
-        radial-gradient(circle at 6% -12%, rgba(56, 189, 248, 0.18), transparent 27rem),
-        radial-gradient(circle at 92% 0%, rgba(244, 63, 94, 0.12), transparent 25rem),
-        linear-gradient(180deg, #050713 0%, #08111f 48%, #020617 100%);
-    }
-    .noise {
-      background-image:
-        linear-gradient(rgba(148, 163, 184, 0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(148, 163, 184, 0.045) 1px, transparent 1px);
-      background-size: 36px 36px;
-      mask-image: linear-gradient(to bottom, black 0%, transparent 76%);
-    }
-    .panel {
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.035);
-    }
-    .status-dot { box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.04); }
-    .disclosure-row[aria-selected="true"] { border-color: rgba(56, 189, 248, 0.58); background: rgba(14, 165, 233, 0.10); }
-    .disclosure-row:focus-visible, button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
-      outline: 3px solid rgba(125, 211, 252, 0.80);
-      outline-offset: 3px;
-    }
-  </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+
+        body {
+            background: radial-gradient(circle at 6% -12%, rgba(56, 189, 248, 0.18), transparent 27rem),
+            radial-gradient(circle at 92% 0%, rgba(244, 63, 94, 0.12), transparent 25rem),
+            linear-gradient(180deg, #050713 0%, #08111f 48%, #020617 100%);
+        }
+
+        .noise {
+            background-image: linear-gradient(rgba(148, 163, 184, 0.045) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(148, 163, 184, 0.045) 1px, transparent 1px);
+            background-size: 36px 36px;
+            mask-image: linear-gradient(to bottom, black 0%, transparent 76%);
+        }
+
+        .panel {
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+        }
+
+        .status-dot {
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.04);
+        }
+
+        .disclosure-row[aria-selected="true"] {
+            border-color: rgba(56, 189, 248, 0.58);
+            background: rgba(14, 165, 233, 0.10);
+        }
+
+        .disclosure-row:focus-visible, button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+            outline: 3px solid rgba(125, 211, 252, 0.80);
+            outline-offset: 3px;
+        }
+    </style>
 </head>
 <body class="min-h-screen overflow-x-hidden text-slate-100 antialiased">
-  <div class="noise pointer-events-none fixed inset-0"></div>
+<div class="noise pointer-events-none fixed inset-0"></div>
 
-  <header class="sticky top-0 z-40 border-b border-white/10 bg-slate-950/82 backdrop-blur-xl">
+<header class="sticky top-0 z-40 border-b border-white/10 bg-slate-950/82 backdrop-blur-xl">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-      <a href="#top" class="flex items-center gap-3" aria-label="OnlyVulns home">
-        <span class="grid h-8 w-8 place-items-center rounded-lg bg-sky-400 text-xs font-black tracking-tight text-slate-950">OV</span>
-        <span>
+        <a aria-label="OnlyVulns home" class="flex items-center gap-3" href="#top">
+            <img
+                    alt="OnlyVulns logo"
+                    class="h-8 w-8 rounded-lg object-contain"
+                    src="/assets/logo.png"
+            />
+            <span>
           <span class="block text-sm font-semibold leading-4 tracking-tight text-white">OnlyVulns</span>
           <span class="block text-[11px] leading-4 text-slate-400">Researcher-controlled disclosure</span>
         </span>
-      </a>
+        </a>
 
-      <nav class="hidden items-center gap-5 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400 lg:flex" aria-label="Primary navigation">
-        <a class="hover:text-sky-300" href="#disclosures">Disclosures</a>
-        <a class="hover:text-sky-300" href="#workflow">Workflow</a>
-        <a class="hover:text-sky-300" href="#reputation">Reputation</a>
-        <a class="hover:text-sky-300" href="#metadata">Metadata</a>
-        <a class="hover:text-sky-300" href="#policies">Policies</a>
-      </nav>
+        <nav aria-label="Primary navigation"
+             class="hidden items-center gap-5 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400 lg:flex">
+            <a class="hover:text-sky-300" href="#disclosures">Disclosures</a>
+            <a class="hover:text-sky-300" href="#workflow">Workflow</a>
+            <a class="hover:text-sky-300" href="#reputation">Reputation</a>
+            <a class="hover:text-sky-300" href="#metadata">Metadata</a>
+            <a class="hover:text-sky-300" href="#policies">Policies</a>
+        </nav>
 
-      <div class="flex items-center gap-2">
-        <a class="hidden rounded-lg border border-white/10 px-3 py-2 text-xs font-bold text-slate-200 hover:border-sky-300/50 hover:text-sky-200 sm:inline-flex" href="https://github.com/Perkins-Fund/OnlyVulns" target="_blank" rel="noreferrer">GitHub</a>
-        <a class="rounded-lg bg-sky-400 px-3 py-2 text-xs font-black text-slate-950 hover:bg-sky-300" href="#submit">Create disclosure</a>
-      </div>
+        <div class="flex items-center gap-2">
+            <a class="hidden rounded-lg border border-white/10 px-3 py-2 text-xs font-bold text-slate-200 hover:border-sky-300/50 hover:text-sky-200 sm:inline-flex"
+               href="https://github.com/Perkins-Fund/OnlyVulns" rel="noreferrer" target="_blank">GitHub</a>
+            <a class="rounded-lg bg-sky-400 px-3 py-2 text-xs font-black text-slate-950 hover:bg-sky-300"
+               href="#submit">Create disclosure</a>
+        </div>
     </div>
-  </header>
+</header>
 
-  <main id="top" class="relative z-10">
+<main class="relative z-10" id="top">
     <section class="mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:py-9">
-      <div class="panel rounded-3xl border border-white/10 bg-slate-950/76 p-5 backdrop-blur sm:p-7">
-        <div class="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div>
-            <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1 text-xs font-semibold text-sky-200">
-              <span class="h-2 w-2 rounded-full bg-emerald-300"></span>
-              Demo disclosure index
-            </div>
-
-            <h1 class="max-w-2xl text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Vulnerability disclosures researchers control.
-            </h1>
-
-            <p class="mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
-              Prepare private disclosures, preserve vendor timelines, set embargoes, manage waiting periods, publish useful advisories, and surface reputation signals without giving vendors control over the workflow.
-            </p>
-
-            <div class="mt-5 flex flex-col gap-3 sm:flex-row">
-              <a href="#disclosures" class="inline-flex items-center justify-center rounded-xl bg-sky-400 px-4 py-3 text-sm font-black text-slate-950 hover:bg-sky-300">View demo disclosures</a>
-              <a href="https://github.com/Perkins-Fund/OnlyVulns" target="_blank" rel="noreferrer" class="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-bold text-slate-100 hover:border-sky-300/40 hover:text-sky-200">Follow the open-source build</a>
-            </div>
-          </div>
-
-          <div class="grid gap-3">
-            <div class="grid grid-cols-2 gap-3 sm:grid-cols-4" aria-label="Platform statistics">
-              <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                <div class="text-2xl font-semibold text-white" data-stat="pending">3</div>
-                <div class="mt-1 text-xs text-slate-400">pending</div>
-              </div>
-              <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                <div class="text-2xl font-semibold text-white" data-stat="published">2</div>
-                <div class="mt-1 text-xs text-slate-400">published</div>
-              </div>
-              <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                <div class="text-2xl font-semibold text-white" data-stat="ignored">2</div>
-                <div class="mt-1 text-xs text-slate-400">ignored</div>
-              </div>
-              <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                <div class="text-2xl font-semibold text-white">Free</div>
-                <div class="mt-1 text-xs text-slate-400">public feed</div>
-              </div>
-            </div>
-
-            <div class="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
-              <div class="flex flex-col gap-2 border-b border-white/10 pb-3 sm:flex-row sm:items-center sm:justify-between">
+        <div class="panel rounded-3xl border border-white/10 bg-slate-950/76 p-5 backdrop-blur sm:p-7">
+            <div class="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Release workflow</p>
-                  <h2 class="mt-1 text-lg font-semibold text-white">Timeframes are visible before publication.</h2>
-                </div>
-                <p class="text-xs text-slate-400">Demo data updates locally.</p>
-              </div>
+                    <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1 text-xs font-semibold text-sky-200">
+                        <span class="h-2 w-2 rounded-full bg-emerald-300"></span>
+                        Demo disclosure index
+                    </div>
 
-              <div class="mt-4 grid gap-3 md:grid-cols-3">
-                <div class="rounded-2xl border border-sky-300/20 bg-sky-300/10 p-4">
-                  <div class="text-xs font-semibold uppercase tracking-wide text-sky-200">Next release</div>
-                  <div class="mt-2 text-2xl font-semibold text-white" id="hero-embargo-count">--</div>
-                  <p class="mt-1 text-xs leading-5 text-slate-300">Earliest pending disclosure window.</p>
+                    <h1 class="max-w-2xl text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
+                        Vulnerability disclosures researchers control.
+                    </h1>
+
+                    <p class="mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
+                        Prepare private disclosures, preserve vendor timelines, set embargoes, manage waiting periods,
+                        publish useful advisories, and surface reputation signals without giving vendors control over
+                        the workflow.
+                    </p>
+
+                    <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+                        <a class="inline-flex items-center justify-center rounded-xl bg-sky-400 px-4 py-3 text-sm font-black text-slate-950 hover:bg-sky-300"
+                           href="#disclosures">View
+                            demo disclosures</a>
+                        <a class="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-bold text-slate-100 hover:border-sky-300/40 hover:text-sky-200" href="https://github.com/Perkins-Fund/OnlyVulns" rel="noreferrer"
+                           target="_blank">Follow
+                            the open-source build</a>
+                    </div>
                 </div>
-                <div class="rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4">
-                  <div class="text-xs font-semibold uppercase tracking-wide text-amber-200">Waiting period</div>
-                  <div class="mt-2 text-2xl font-semibold text-white">72h</div>
-                  <p class="mt-1 text-xs leading-5 text-slate-300">Cancel, delay, modify, or delete.</p>
+
+                <div class="grid gap-3">
+                    <div aria-label="Platform statistics" class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                        <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                            <div class="text-2xl font-semibold text-white" data-stat="pending">3</div>
+                            <div class="mt-1 text-xs text-slate-400">pending</div>
+                        </div>
+                        <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                            <div class="text-2xl font-semibold text-white" data-stat="published">2</div>
+                            <div class="mt-1 text-xs text-slate-400">published</div>
+                        </div>
+                        <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                            <div class="text-2xl font-semibold text-white" data-stat="ignored">2</div>
+                            <div class="mt-1 text-xs text-slate-400">ignored</div>
+                        </div>
+                        <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                            <div class="text-2xl font-semibold text-white">Free</div>
+                            <div class="mt-1 text-xs text-slate-400">public feed</div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+                        <div class="flex flex-col gap-2 border-b border-white/10 pb-3 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Release
+                                    workflow</p>
+                                <h2 class="mt-1 text-lg font-semibold text-white">Timeframes are visible before
+                                    publication.</h2>
+                            </div>
+                            <p class="text-xs text-slate-400">Demo data updates locally.</p>
+                        </div>
+
+                        <div class="mt-4 grid gap-3 md:grid-cols-3">
+                            <div class="rounded-2xl border border-sky-300/20 bg-sky-300/10 p-4">
+                                <div class="text-xs font-semibold uppercase tracking-wide text-sky-200">Next release
+                                </div>
+                                <div class="mt-2 text-2xl font-semibold text-white" id="hero-embargo-count">--</div>
+                                <p class="mt-1 text-xs leading-5 text-slate-300">Earliest pending disclosure window.</p>
+                            </div>
+                            <div class="rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4">
+                                <div class="text-xs font-semibold uppercase tracking-wide text-amber-200">Waiting
+                                    period
+                                </div>
+                                <div class="mt-2 text-2xl font-semibold text-white">72h</div>
+                                <p class="mt-1 text-xs leading-5 text-slate-300">Cancel, delay, modify, or delete.</p>
+                            </div>
+                            <div class="rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4">
+                                <div class="text-xs font-semibold uppercase tracking-wide text-emerald-200">Public
+                                    archive
+                                </div>
+                                <div class="mt-2 text-2xl font-semibold text-white">Permanent</div>
+                                <p class="mt-1 text-xs leading-5 text-slate-300">Searchable unless removed by
+                                    policy.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4">
-                  <div class="text-xs font-semibold uppercase tracking-wide text-emerald-200">Public archive</div>
-                  <div class="mt-2 text-2xl font-semibold text-white">Permanent</div>
-                  <p class="mt-1 text-xs leading-5 text-slate-300">Searchable unless removed by policy.</p>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </section>
 
-    <section id="disclosures" class="mx-auto max-w-7xl px-4 pb-10 sm:px-6">
-      <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <section class="panel rounded-3xl border border-white/10 bg-slate-950/72 p-4 backdrop-blur" aria-labelledby="disclosures-title">
-          <div class="border-b border-white/10 p-2 pb-4">
+    <section class="mx-auto max-w-7xl px-4 pb-10 sm:px-6" id="disclosures">
+        <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+            <section aria-labelledby="disclosures-title"
+                     class="panel rounded-3xl border border-white/10 bg-slate-950/72 p-4 backdrop-blur">
+                <div class="border-b border-white/10 p-2 pb-4">
+                    <div class="max-w-3xl">
+                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Public demo</p>
+                        <h2 class="mt-1 text-2xl font-semibold tracking-tight text-white" id="disclosures-title">
+                            Disclosures people can inspect</h2>
+                        <p class="mt-2 text-sm leading-6 text-slate-400">Filter live demo disclosures by status,
+                            severity, vendor, product, CWE, or reputation signal.</p>
+                    </div>
+
+                    <div class="mt-4 grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+                        <div class="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto]">
+                            <label class="sr-only" for="search">Search disclosures</label>
+                            <input class="w-full rounded-xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm text-white placeholder:text-slate-500" id="search"
+                                   placeholder="Search title, vendor, product, CWE, reputation..."
+                                   type="search"/>
+                            <label class="sr-only" for="severity-filter">Filter by severity</label>
+                            <select class="rounded-xl border border-white/10 bg-slate-900/80 px-3 py-3 text-sm text-white"
+                                    id="severity-filter">
+                                <option value="all">All severities</option>
+                                <option value="Critical">Critical</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                            </select>
+                        </div>
+
+                        <div aria-label="Filter by disclosure status" class="flex flex-wrap gap-2" role="group">
+                            <button class="filter-btn rounded-full border border-sky-300/40 bg-sky-300/15 px-3 py-2 text-xs font-bold text-sky-100"
+                                    data-filter="all">All
+                            </button>
+                            <button class="filter-btn rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-bold text-slate-300"
+                                    data-filter="embargoed">Embargoed
+                            </button>
+                            <button class="filter-btn rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-bold text-slate-300"
+                                    data-filter="waiting">Waiting
+                            </button>
+                            <button class="filter-btn rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-bold text-slate-300"
+                                    data-filter="published">Published
+                            </button>
+                            <button class="filter-btn rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-bold text-slate-300"
+                                    data-filter="ignored">Ignored
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div aria-live="polite" class="space-y-3 p-2" id="disclosure-list"></div>
+            </section>
+
+            <aside aria-labelledby="detail-title"
+                   class="panel sticky top-20 h-fit rounded-3xl border border-white/10 bg-slate-950/82 p-5 backdrop-blur">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Selected advisory</p>
+                        <h2 class="mt-2 text-2xl font-semibold tracking-tight text-white" id="detail-title">Select a
+                            disclosure</h2>
+                    </div>
+                    <span class="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-bold text-slate-300"
+                          id="detail-status">Demo</span>
+                </div>
+
+                <p class="mt-4 text-sm leading-7 text-slate-300" id="detail-summary">The detail pane shows structured
+                    metadata, dates, lifecycle state, vendor response, remediation notes, reputation, and researcher
+                    attribution.</p>
+
+                <dl class="mt-5 grid grid-cols-2 gap-3 text-sm">
+                    <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                        <dt class="text-xs text-slate-500">Researcher</dt>
+                        <dd class="mt-1 font-semibold text-white" id="detail-researcher">--</dd>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                        <dt class="text-xs text-slate-500">CVSS</dt>
+                        <dd class="mt-1 font-semibold text-white" id="detail-cvss">--</dd>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                        <dt class="text-xs text-slate-500">Vendor</dt>
+                        <dd class="mt-1 font-semibold text-white" id="detail-vendor">--</dd>
+                    </div>
+                    <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                        <dt class="text-xs text-slate-500">Patch status</dt>
+                        <dd class="mt-1 font-semibold text-white" id="detail-patch">--</dd>
+                    </div>
+                    <div class="rounded-2xl border border-sky-300/20 bg-sky-300/10 p-4">
+                        <dt class="text-xs text-sky-100/80">Researcher rep</dt>
+                        <dd class="mt-1 font-semibold text-white" id="detail-researcher-rep">--</dd>
+                    </div>
+                    <div class="rounded-2xl border border-rose-300/20 bg-rose-300/10 p-4">
+                        <dt class="text-xs text-rose-100/80">Vendor rep</dt>
+                        <dd class="mt-1 font-semibold text-white" id="detail-vendor-rep">--</dd>
+                    </div>
+                </dl>
+
+                <div class="mt-5 rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <div class="text-xs font-semibold uppercase tracking-wide text-amber-100" id="timer-label">
+                                Release window
+                            </div>
+                            <div class="mt-1 text-2xl font-semibold text-white" id="timer-value">--</div>
+                        </div>
+                        <button class="rounded-xl border border-white/10 bg-slate-950/60 px-3 py-2 text-xs font-bold text-white hover:border-amber-200/40"
+                                id="delay-button">
+                            Delay 7d
+                        </button>
+                    </div>
+                    <p class="mt-2 text-xs leading-5 text-slate-300" id="timer-help">Embargoed and waiting-period
+                        records can be delayed or cancelled by the researcher before automatic publication.</p>
+                </div>
+
+                <div class="mt-5">
+                    <h3 class="text-sm font-semibold text-white">Vendor communication timeline</h3>
+                    <ol class="mt-3 space-y-3 border-l border-white/10 pl-4 text-sm" id="timeline"></ol>
+                </div>
+
+                <div class="mt-5 grid gap-2 sm:grid-cols-2">
+                    <button class="rounded-xl bg-sky-400 px-4 py-3 text-sm font-black text-slate-950 hover:bg-sky-300">
+                        Preview advisory
+                    </button>
+                    <button class="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-bold text-slate-100 hover:border-pink-300/40 hover:text-pink-100">
+                        Tip researcher
+                    </button>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <section class="border-y border-white/10 bg-slate-950/58" id="workflow">
+        <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
             <div class="max-w-3xl">
-              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Public demo</p>
-              <h2 id="disclosures-title" class="mt-1 text-2xl font-semibold tracking-tight text-white">Disclosures people can inspect</h2>
-              <p class="mt-2 text-sm leading-6 text-slate-400">Filter live demo disclosures by status, severity, vendor, product, CWE, or reputation signal.</p>
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Lifecycle</p>
+                <h2 class="mt-2 text-3xl font-semibold tracking-tight text-white">The page should show how publication
+                    actually works.</h2>
+                <p class="mt-3 text-sm leading-7 text-slate-300">This demo makes the core workflow visible: draft
+                    privately, set an embargo, enter a waiting period, retain researcher control, then publish
+                    automatically unless the researcher cancels or delays.</p>
             </div>
 
-            <div class="mt-4 grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
-              <div class="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto]">
-                <label class="sr-only" for="search">Search disclosures</label>
-                <input id="search" type="search" placeholder="Search title, vendor, product, CWE, reputation..." class="w-full rounded-xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm text-white placeholder:text-slate-500" />
-                <label class="sr-only" for="severity-filter">Filter by severity</label>
-                <select id="severity-filter" class="rounded-xl border border-white/10 bg-slate-900/80 px-3 py-3 text-sm text-white">
-                  <option value="all">All severities</option>
-                  <option value="Critical">Critical</option>
-                  <option value="High">High</option>
-                  <option value="Medium">Medium</option>
-                </select>
-              </div>
-
-              <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by disclosure status">
-                <button class="filter-btn rounded-full border border-sky-300/40 bg-sky-300/15 px-3 py-2 text-xs font-bold text-sky-100" data-filter="all">All</button>
-                <button class="filter-btn rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-bold text-slate-300" data-filter="embargoed">Embargoed</button>
-                <button class="filter-btn rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-bold text-slate-300" data-filter="waiting">Waiting</button>
-                <button class="filter-btn rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-bold text-slate-300" data-filter="published">Published</button>
-                <button class="filter-btn rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-bold text-slate-300" data-filter="ignored">Ignored</button>
-              </div>
+            <div class="mt-8 grid gap-4 md:grid-cols-4">
+                <article class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+                    <div class="text-xs font-black uppercase tracking-[0.2em] text-sky-300">01</div>
+                    <h3 class="mt-3 font-semibold text-white">Draft</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Upload the PoC, write-up, affected versions, CVSS
+                        vector, CWE tags, screenshots, references, and mitigation notes.</p>
+                </article>
+                <article class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+                    <div class="text-xs font-black uppercase tracking-[0.2em] text-sky-300">02</div>
+                    <h3 class="mt-3 font-semibold text-white">Embargo</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Keep details private while the researcher
+                        coordinates externally with the affected vendor or maintainers.</p>
+                </article>
+                <article class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+                    <div class="text-xs font-black uppercase tracking-[0.2em] text-sky-300">03</div>
+                    <h3 class="mt-3 font-semibold text-white">Waiting period</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">After embargo expiration, the researcher still has
+                        a final window to cancel, delay, modify, or delete before release.</p>
+                </article>
+                <article class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+                    <div class="text-xs font-black uppercase tracking-[0.2em] text-sky-300">04</div>
+                    <h3 class="mt-3 font-semibold text-white">Public archive</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">The advisory becomes searchable, machine-readable,
+                        attributable, shareable, and available through public feeds.</p>
+                </article>
             </div>
-          </div>
+        </div>
+    </section>
 
-          <div id="disclosure-list" class="space-y-3 p-2" aria-live="polite"></div>
-        </section>
-
-        <aside class="panel sticky top-20 h-fit rounded-3xl border border-white/10 bg-slate-950/82 p-5 backdrop-blur" aria-labelledby="detail-title">
-          <div class="flex items-start justify-between gap-4">
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6" id="reputation">
+        <div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
-              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Selected advisory</p>
-              <h2 id="detail-title" class="mt-2 text-2xl font-semibold tracking-tight text-white">Select a disclosure</h2>
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Reputation</p>
+                <h2 class="mt-2 text-3xl font-semibold tracking-tight text-white">Researcher credit and vendor
+                    accountability belong in the product.</h2>
+                <p class="mt-3 text-sm leading-7 text-slate-300">Reputation should be generated from public disclosure
+                    records, researcher-entered timelines, community feedback, evidence attachments, and moderation
+                    safeguards.</p>
             </div>
-            <span id="detail-status" class="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-bold text-slate-300">Demo</span>
-          </div>
 
-          <p id="detail-summary" class="mt-4 text-sm leading-7 text-slate-300">The detail pane shows structured metadata, dates, lifecycle state, vendor response, remediation notes, reputation, and researcher attribution.</p>
-
-          <dl class="mt-5 grid grid-cols-2 gap-3 text-sm">
-            <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-              <dt class="text-xs text-slate-500">Researcher</dt>
-              <dd id="detail-researcher" class="mt-1 font-semibold text-white">--</dd>
+            <div class="grid gap-3 sm:grid-cols-2">
+                <div class="rounded-3xl border border-sky-300/20 bg-sky-300/10 p-5">
+                    <h3 class="font-semibold text-white">Researcher reputation</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Verified reports, documentation quality, trusted
+                        reviews, contribution history, reproducibility, and public advisory quality.</p>
+                </div>
+                <div class="rounded-3xl border border-rose-300/20 bg-rose-300/10 p-5">
+                    <h3 class="font-semibold text-white">Vendor reputation</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Acknowledgement time, remediation time, ignored
+                        disclosures, disputes, payment issues, safe harbor quality, and researcher treatment.</p>
+                </div>
+                <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+                    <h3 class="font-semibold text-white">Bug bounty transparency</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Researcher-submitted feedback on report handling,
+                        duplicate handling, scope issues, payment reliability, and retaliation or bans.</p>
+                </div>
+                <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+                    <h3 class="font-semibold text-white">Abuse controls</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">Moderation, evidence attachment, rate limits,
+                        anti-brigading controls, reputation weighting, reporting, and appeal workflows.</p>
+                </div>
             </div>
-            <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-              <dt class="text-xs text-slate-500">CVSS</dt>
-              <dd id="detail-cvss" class="mt-1 font-semibold text-white">--</dd>
-            </div>
-            <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-              <dt class="text-xs text-slate-500">Vendor</dt>
-              <dd id="detail-vendor" class="mt-1 font-semibold text-white">--</dd>
-            </div>
-            <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-              <dt class="text-xs text-slate-500">Patch status</dt>
-              <dd id="detail-patch" class="mt-1 font-semibold text-white">--</dd>
-            </div>
-            <div class="rounded-2xl border border-sky-300/20 bg-sky-300/10 p-4">
-              <dt class="text-xs text-sky-100/80">Researcher rep</dt>
-              <dd id="detail-researcher-rep" class="mt-1 font-semibold text-white">--</dd>
-            </div>
-            <div class="rounded-2xl border border-rose-300/20 bg-rose-300/10 p-4">
-              <dt class="text-xs text-rose-100/80">Vendor rep</dt>
-              <dd id="detail-vendor-rep" class="mt-1 font-semibold text-white">--</dd>
-            </div>
-          </dl>
-
-          <div class="mt-5 rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4">
-            <div class="flex items-center justify-between gap-3">
-              <div>
-                <div id="timer-label" class="text-xs font-semibold uppercase tracking-wide text-amber-100">Release window</div>
-                <div id="timer-value" class="mt-1 text-2xl font-semibold text-white">--</div>
-              </div>
-              <button id="delay-button" class="rounded-xl border border-white/10 bg-slate-950/60 px-3 py-2 text-xs font-bold text-white hover:border-amber-200/40">Delay 7d</button>
-            </div>
-            <p id="timer-help" class="mt-2 text-xs leading-5 text-slate-300">Embargoed and waiting-period records can be delayed or cancelled by the researcher before automatic publication.</p>
-          </div>
-
-          <div class="mt-5">
-            <h3 class="text-sm font-semibold text-white">Vendor communication timeline</h3>
-            <ol id="timeline" class="mt-3 space-y-3 border-l border-white/10 pl-4 text-sm"></ol>
-          </div>
-
-          <div class="mt-5 grid gap-2 sm:grid-cols-2">
-            <button class="rounded-xl bg-sky-400 px-4 py-3 text-sm font-black text-slate-950 hover:bg-sky-300">Preview advisory</button>
-            <button class="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-bold text-slate-100 hover:border-pink-300/40 hover:text-pink-100">Tip researcher</button>
-          </div>
-        </aside>
-      </div>
+        </div>
     </section>
 
-    <section id="workflow" class="border-y border-white/10 bg-slate-950/58">
-      <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <div class="max-w-3xl">
-          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Lifecycle</p>
-          <h2 class="mt-2 text-3xl font-semibold tracking-tight text-white">The page should show how publication actually works.</h2>
-          <p class="mt-3 text-sm leading-7 text-slate-300">This demo makes the core workflow visible: draft privately, set an embargo, enter a waiting period, retain researcher control, then publish automatically unless the researcher cancels or delays.</p>
+    <section class="border-y border-white/10 bg-slate-950/58" id="metadata">
+        <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+            <div class="grid gap-6 lg:grid-cols-3">
+                <div class="lg:col-span-1">
+                    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Useful by default</p>
+                    <h2 class="mt-2 text-3xl font-semibold tracking-tight text-white">Structured pages, not vague
+                        announcements.</h2>
+                    <p class="mt-3 text-sm leading-7 text-slate-300">Every public page should serve researchers,
+                        defenders, nonprofits, journalists, incident responders, and the broader security community.</p>
+                </div>
+                <div class="grid gap-3 sm:grid-cols-2 lg:col-span-2">
+                    <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5"><h3
+                            class="font-semibold text-white">Technical record</h3>
+                        <p class="mt-2 text-sm leading-6 text-slate-300">PoC details, Markdown write-up, affected
+                            products, versions, platform tags, references, and advisory IDs.</p></div>
+                    <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5"><h3
+                            class="font-semibold text-white">Severity metadata</h3>
+                        <p class="mt-2 text-sm leading-6 text-slate-300">CVSS score, CVSS vector, severity rating, CWE
+                            tags, CPE/product tags, known exploitation, and patch availability.</p></div>
+                    <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5"><h3
+                            class="font-semibold text-white">Vendor behavior</h3>
+                        <p class="mt-2 text-sm leading-6 text-slate-300">Researcher-entered vendor outreach,
+                            acknowledgement, response quality, dispute status, remediation status, and payment
+                            issues.</p></div>
+                    <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5"><h3
+                            class="font-semibold text-white">Public feed</h3>
+                        <p class="mt-2 text-sm leading-6 text-slate-300">RSS, JSON, API access, webhooks, search
+                            indexing, and machine-readable vulnerability metadata without a paywall.</p></div>
+                </div>
+            </div>
         </div>
-
-        <div class="mt-8 grid gap-4 md:grid-cols-4">
-          <article class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
-            <div class="text-xs font-black uppercase tracking-[0.2em] text-sky-300">01</div>
-            <h3 class="mt-3 font-semibold text-white">Draft</h3>
-            <p class="mt-2 text-sm leading-6 text-slate-300">Upload the PoC, write-up, affected versions, CVSS vector, CWE tags, screenshots, references, and mitigation notes.</p>
-          </article>
-          <article class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
-            <div class="text-xs font-black uppercase tracking-[0.2em] text-sky-300">02</div>
-            <h3 class="mt-3 font-semibold text-white">Embargo</h3>
-            <p class="mt-2 text-sm leading-6 text-slate-300">Keep details private while the researcher coordinates externally with the affected vendor or maintainers.</p>
-          </article>
-          <article class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
-            <div class="text-xs font-black uppercase tracking-[0.2em] text-sky-300">03</div>
-            <h3 class="mt-3 font-semibold text-white">Waiting period</h3>
-            <p class="mt-2 text-sm leading-6 text-slate-300">After embargo expiration, the researcher still has a final window to cancel, delay, modify, or delete before release.</p>
-          </article>
-          <article class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
-            <div class="text-xs font-black uppercase tracking-[0.2em] text-sky-300">04</div>
-            <h3 class="mt-3 font-semibold text-white">Public archive</h3>
-            <p class="mt-2 text-sm leading-6 text-slate-300">The advisory becomes searchable, machine-readable, attributable, shareable, and available through public feeds.</p>
-          </article>
-        </div>
-      </div>
     </section>
 
-    <section id="reputation" class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+    <section class="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[0.9fr_1.1fr]" id="policies">
         <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Reputation</p>
-          <h2 class="mt-2 text-3xl font-semibold tracking-tight text-white">Researcher credit and vendor accountability belong in the product.</h2>
-          <p class="mt-3 text-sm leading-7 text-slate-300">Reputation should be generated from public disclosure records, researcher-entered timelines, community feedback, evidence attachments, and moderation safeguards.</p>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Before launch</p>
+            <h2 class="mt-2 text-3xl font-semibold tracking-tight text-white">Policies are part of the product.</h2>
+            <p class="mt-3 text-sm leading-7 text-slate-300">A researcher-first disclosure platform needs clear rules
+                for high-risk research, disputed claims, legal threats, malware handling, moderation, appeals, and
+                researcher safety before public launch.</p>
         </div>
-
         <div class="grid gap-3 sm:grid-cols-2">
-          <div class="rounded-3xl border border-sky-300/20 bg-sky-300/10 p-5">
-            <h3 class="font-semibold text-white">Researcher reputation</h3>
-            <p class="mt-2 text-sm leading-6 text-slate-300">Verified reports, documentation quality, trusted reviews, contribution history, reproducibility, and public advisory quality.</p>
-          </div>
-          <div class="rounded-3xl border border-rose-300/20 bg-rose-300/10 p-5">
-            <h3 class="font-semibold text-white">Vendor reputation</h3>
-            <p class="mt-2 text-sm leading-6 text-slate-300">Acknowledgement time, remediation time, ignored disclosures, disputes, payment issues, safe harbor quality, and researcher treatment.</p>
-          </div>
-          <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
-            <h3 class="font-semibold text-white">Bug bounty transparency</h3>
-            <p class="mt-2 text-sm leading-6 text-slate-300">Researcher-submitted feedback on report handling, duplicate handling, scope issues, payment reliability, and retaliation or bans.</p>
-          </div>
-          <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
-            <h3 class="font-semibold text-white">Abuse controls</h3>
-            <p class="mt-2 text-sm leading-6 text-slate-300">Moderation, evidence attachment, rate limits, anti-brigading controls, reputation weighting, reporting, and appeal workflows.</p>
-          </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300">Coordinated
+                disclosure policy
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300">Researcher
+                protection policy
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300">Malware and PoC
+                handling policy
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300">Takedown and
+                legal request policy
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300">Moderation and
+                appeal policy
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300">Donation and
+                payout policy
+            </div>
         </div>
-      </div>
     </section>
 
-    <section id="metadata" class="border-y border-white/10 bg-slate-950/58">
-      <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <div class="grid gap-6 lg:grid-cols-3">
-          <div class="lg:col-span-1">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Useful by default</p>
-            <h2 class="mt-2 text-3xl font-semibold tracking-tight text-white">Structured pages, not vague announcements.</h2>
-            <p class="mt-3 text-sm leading-7 text-slate-300">Every public page should serve researchers, defenders, nonprofits, journalists, incident responders, and the broader security community.</p>
-          </div>
-          <div class="grid gap-3 sm:grid-cols-2 lg:col-span-2">
-            <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5"><h3 class="font-semibold text-white">Technical record</h3><p class="mt-2 text-sm leading-6 text-slate-300">PoC details, Markdown write-up, affected products, versions, platform tags, references, and advisory IDs.</p></div>
-            <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5"><h3 class="font-semibold text-white">Severity metadata</h3><p class="mt-2 text-sm leading-6 text-slate-300">CVSS score, CVSS vector, severity rating, CWE tags, CPE/product tags, known exploitation, and patch availability.</p></div>
-            <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5"><h3 class="font-semibold text-white">Vendor behavior</h3><p class="mt-2 text-sm leading-6 text-slate-300">Researcher-entered vendor outreach, acknowledgement, response quality, dispute status, remediation status, and payment issues.</p></div>
-            <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-5"><h3 class="font-semibold text-white">Public feed</h3><p class="mt-2 text-sm leading-6 text-slate-300">RSS, JSON, API access, webhooks, search indexing, and machine-readable vulnerability metadata without a paywall.</p></div>
-          </div>
+    <section class="mx-auto max-w-7xl px-4 pb-12 sm:px-6" id="submit">
+        <div class="panel rounded-3xl border border-sky-300/20 bg-sky-300/10 p-6 sm:p-8 lg:flex lg:items-center lg:justify-between lg:gap-8">
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-200">Open-source nonprofit build</p>
+                <h2 class="mt-2 text-3xl font-semibold tracking-tight text-white">Build the disclosure workflow in
+                    public.</h2>
+                <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-300">This page is a functional demo shell:
+                    disclosure list, statuses, timeframes, filtering, selected advisory preview, reputation signals,
+                    waiting-period logic, and core product model.</p>
+            </div>
+            <div class="mt-6 flex flex-col gap-3 sm:flex-row lg:mt-0">
+                <a class="inline-flex items-center justify-center rounded-xl bg-sky-400 px-5 py-3 text-sm font-black text-slate-950 hover:bg-sky-300" href="https://github.com/Perkins-Fund/OnlyVulns" rel="noreferrer"
+                   target="_blank">View
+                    GitHub</a>
+                <a class="inline-flex items-center justify-center rounded-xl border border-white/10 bg-slate-950/40 px-5 py-3 text-sm font-bold text-slate-100 hover:border-sky-200/40" href="https://x.com/perkinsfund" rel="noreferrer"
+                   target="_blank">Follow
+                    updates</a>
+            </div>
         </div>
-      </div>
     </section>
+</main>
 
-    <section id="policies" class="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[0.9fr_1.1fr]">
-      <div>
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">Before launch</p>
-        <h2 class="mt-2 text-3xl font-semibold tracking-tight text-white">Policies are part of the product.</h2>
-        <p class="mt-3 text-sm leading-7 text-slate-300">A researcher-first disclosure platform needs clear rules for high-risk research, disputed claims, legal threats, malware handling, moderation, appeals, and researcher safety before public launch.</p>
-      </div>
-      <div class="grid gap-3 sm:grid-cols-2">
-        <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300">Coordinated disclosure policy</div>
-        <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300">Researcher protection policy</div>
-        <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300">Malware and PoC handling policy</div>
-        <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300">Takedown and legal request policy</div>
-        <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300">Moderation and appeal policy</div>
-        <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300">Donation and payout policy</div>
-      </div>
-    </section>
-
-    <section id="submit" class="mx-auto max-w-7xl px-4 pb-12 sm:px-6">
-      <div class="panel rounded-3xl border border-sky-300/20 bg-sky-300/10 p-6 sm:p-8 lg:flex lg:items-center lg:justify-between lg:gap-8">
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-200">Open-source nonprofit build</p>
-          <h2 class="mt-2 text-3xl font-semibold tracking-tight text-white">Build the disclosure workflow in public.</h2>
-          <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-300">This page is a functional demo shell: disclosure list, statuses, timeframes, filtering, selected advisory preview, reputation signals, waiting-period logic, and core product model.</p>
-        </div>
-        <div class="mt-6 flex flex-col gap-3 sm:flex-row lg:mt-0">
-          <a href="https://github.com/Perkins-Fund/OnlyVulns" target="_blank" rel="noreferrer" class="inline-flex items-center justify-center rounded-xl bg-sky-400 px-5 py-3 text-sm font-black text-slate-950 hover:bg-sky-300">View GitHub</a>
-          <a href="https://x.com/perkinsfund" target="_blank" rel="noreferrer" class="inline-flex items-center justify-center rounded-xl border border-white/10 bg-slate-950/40 px-5 py-3 text-sm font-bold text-slate-100 hover:border-sky-200/40">Follow updates</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="relative z-10 border-t border-white/10 bg-slate-950">
+<footer class="relative z-10 border-t border-white/10 bg-slate-950">
     <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 text-xs text-slate-400 sm:px-6 md:flex-row md:items-center md:justify-between">
-      <p>&copy; <span id="year"></span> OnlyVulns. Nonprofit, open-source vulnerability disclosure for security researchers.</p>
-      <p>Operated by PCEF — <a class="font-semibold text-sky-300 hover:text-sky-200" href="https://perkinsfund.org" target="_blank" rel="noreferrer">perkinsfund.org</a></p>
+        <p>&copy; <span id="year"></span> OnlyVulns. Nonprofit, open-source vulnerability disclosure for security
+            researchers.</p>
+        <p>Operated by PCEF — <a class="font-semibold text-sky-300 hover:text-sky-200" href="https://perkinsfund.org"
+                                 rel="noreferrer" target="_blank">perkinsfund.org</a></p>
     </div>
-  </footer>
+</footer>
 
-  <script>
+<script>
     const MS_DAY = 24 * 60 * 60 * 1000;
     const now = Date.now();
 
     const disclosures = [
-      {
-        id: "OV-2026-0007",
-        title: "Multi-tenant session isolation bypass in ExampleCloud Admin",
-        vendor: "ExampleCloud",
-        product: "ExampleCloud Admin 4.8.x",
-        researcher: "@northstarsec",
-        researcherRep: "94 · verified",
-        vendorRep: "71 · responsive",
-        severity: "Critical",
-        cvss: "9.6",
-        cwe: "CWE-287",
-        status: "embargoed",
-        statusLabel: "Embargoed",
-        vendorState: "Acknowledged",
-        patch: "Patch pending",
-        releaseAt: now + 6 * MS_DAY + 3 * 60 * 60 * 1000,
-        summary: "A tenant boundary weakness allows authenticated users to access administrative session material belonging to another tenant under specific routing conditions.",
-        timeline: [
-          ["2026-06-01", "Initial disclosure sent to vendor security contact."],
-          ["2026-06-03", "Vendor acknowledged receipt and requested reproduction environment details."],
-          ["2026-06-05", "Researcher uploaded redacted logs and affected-version matrix."]
-        ]
-      },
-      {
-        id: "OV-2026-0006",
-        title: "Unauthenticated export endpoint leaks project metadata",
-        vendor: "BrightCart",
-        product: "BrightCart Commerce API 2.1-2.4",
-        researcher: "LabZero",
-        researcherRep: "88 · trusted lab",
-        vendorRep: "29 · nonresponsive",
-        severity: "High",
-        cvss: "8.2",
-        cwe: "CWE-306",
-        status: "waiting",
-        statusLabel: "Waiting",
-        vendorState: "No response",
-        patch: "Unpatched",
-        releaseAt: now + 46 * 60 * 60 * 1000,
-        summary: "A public export route exposes organization names, project identifiers, and integration metadata without authentication.",
-        timeline: [
-          ["2026-05-18", "Vendor notified through published security address."],
-          ["2026-05-25", "First follow-up sent; no acknowledgement received."],
-          ["2026-06-07", "Embargo expired; disclosure entered 72-hour waiting period."]
-        ]
-      },
-      {
-        id: "OV-2026-0005",
-        title: "Stored XSS in vendor support transcript renderer",
-        vendor: "DeskForge",
-        product: "DeskForge Support Portal 7.2",
-        researcher: "@payloadsafety",
-        researcherRep: "76 · verified",
-        vendorRep: "84 · patched",
-        severity: "Medium",
-        cvss: "6.1",
-        cwe: "CWE-79",
-        status: "published",
-        statusLabel: "Published",
-        vendorState: "Patched",
-        patch: "Fixed in 7.2.4",
-        releaseAt: now - 9 * MS_DAY,
-        summary: "Improper transcript sanitization allowed script execution in the staff-side transcript viewer when a crafted customer message was rendered.",
-        timeline: [
-          ["2026-04-29", "Initial report submitted with sanitized PoC."],
-          ["2026-05-02", "Vendor confirmed reproduction."],
-          ["2026-05-31", "Patch released and advisory published."]
-        ]
-      },
-      {
-        id: "OV-2026-0004",
-        title: "Hardcoded recovery token in IoT gateway image",
-        vendor: "HomeGrid Systems",
-        product: "HG-Gateway firmware 3.0.0-3.0.3",
-        researcher: "RedBarn Research",
-        researcherRep: "91 · hardware specialist",
-        vendorRep: "18 · ignored reports",
-        severity: "High",
-        cvss: "8.8",
-        cwe: "CWE-798",
-        status: "ignored",
-        statusLabel: "Ignored",
-        vendorState: "Ignored",
-        patch: "No patch available",
-        releaseAt: now + 2 * MS_DAY + 8 * 60 * 60 * 1000,
-        summary: "A recovery token embedded in firmware images can be extracted and reused to access administrative recovery functionality.",
-        timeline: [
-          ["2026-05-10", "Report sent to vendor security intake."],
-          ["2026-05-17", "Follow-up sent with firmware hashes and affected models."],
-          ["2026-06-06", "No response recorded; waiting-period publication scheduled."]
-        ]
-      },
-      {
-        id: "OV-2026-0003",
-        title: "Path traversal in backup restore package handler",
-        vendor: "StackHarbor",
-        product: "StackHarbor Backup Agent 1.9",
-        researcher: "@quietpacket",
-        researcherRep: "82 · reproducible reports",
-        vendorRep: "52 · disputed severity",
-        severity: "Critical",
-        cvss: "9.1",
-        cwe: "CWE-22",
-        status: "published",
-        statusLabel: "Published",
-        vendorState: "Partially remediated",
-        patch: "Mitigation available",
-        releaseAt: now - 18 * MS_DAY,
-        summary: "Improper archive extraction permits arbitrary file write during restore operations when a privileged operator imports a crafted backup package.",
-        timeline: [
-          ["2026-04-14", "Initial private disclosure created."],
-          ["2026-04-22", "Vendor disputed severity but confirmed extraction behavior."],
-          ["2026-05-22", "Public advisory released with mitigation guidance."]
-        ]
-      }
+        {
+            id: "OV-2026-0007",
+            title: "Multi-tenant session isolation bypass in ExampleCloud Admin",
+            vendor: "ExampleCloud",
+            product: "ExampleCloud Admin 4.8.x",
+            researcher: "@northstarsec",
+            researcherRep: "94 · verified",
+            vendorRep: "71 · responsive",
+            severity: "Critical",
+            cvss: "9.6",
+            cwe: "CWE-287",
+            status: "embargoed",
+            statusLabel: "Embargoed",
+            vendorState: "Acknowledged",
+            patch: "Patch pending",
+            releaseAt: now + 6 * MS_DAY + 3 * 60 * 60 * 1000,
+            summary: "A tenant boundary weakness allows authenticated users to access administrative session material belonging to another tenant under specific routing conditions.",
+            timeline: [
+                ["2026-06-01", "Initial disclosure sent to vendor security contact."],
+                ["2026-06-03", "Vendor acknowledged receipt and requested reproduction environment details."],
+                ["2026-06-05", "Researcher uploaded redacted logs and affected-version matrix."]
+            ]
+        },
+        {
+            id: "OV-2026-0006",
+            title: "Unauthenticated export endpoint leaks project metadata",
+            vendor: "BrightCart",
+            product: "BrightCart Commerce API 2.1-2.4",
+            researcher: "LabZero",
+            researcherRep: "88 · trusted lab",
+            vendorRep: "29 · nonresponsive",
+            severity: "High",
+            cvss: "8.2",
+            cwe: "CWE-306",
+            status: "waiting",
+            statusLabel: "Waiting",
+            vendorState: "No response",
+            patch: "Unpatched",
+            releaseAt: now + 46 * 60 * 60 * 1000,
+            summary: "A public export route exposes organization names, project identifiers, and integration metadata without authentication.",
+            timeline: [
+                ["2026-05-18", "Vendor notified through published security address."],
+                ["2026-05-25", "First follow-up sent; no acknowledgement received."],
+                ["2026-06-07", "Embargo expired; disclosure entered 72-hour waiting period."]
+            ]
+        },
+        {
+            id: "OV-2026-0005",
+            title: "Stored XSS in vendor support transcript renderer",
+            vendor: "DeskForge",
+            product: "DeskForge Support Portal 7.2",
+            researcher: "@payloadsafety",
+            researcherRep: "76 · verified",
+            vendorRep: "84 · patched",
+            severity: "Medium",
+            cvss: "6.1",
+            cwe: "CWE-79",
+            status: "published",
+            statusLabel: "Published",
+            vendorState: "Patched",
+            patch: "Fixed in 7.2.4",
+            releaseAt: now - 9 * MS_DAY,
+            summary: "Improper transcript sanitization allowed script execution in the staff-side transcript viewer when a crafted customer message was rendered.",
+            timeline: [
+                ["2026-04-29", "Initial report submitted with sanitized PoC."],
+                ["2026-05-02", "Vendor confirmed reproduction."],
+                ["2026-05-31", "Patch released and advisory published."]
+            ]
+        },
+        {
+            id: "OV-2026-0004",
+            title: "Hardcoded recovery token in IoT gateway image",
+            vendor: "HomeGrid Systems",
+            product: "HG-Gateway firmware 3.0.0-3.0.3",
+            researcher: "RedBarn Research",
+            researcherRep: "91 · hardware specialist",
+            vendorRep: "18 · ignored reports",
+            severity: "High",
+            cvss: "8.8",
+            cwe: "CWE-798",
+            status: "ignored",
+            statusLabel: "Ignored",
+            vendorState: "Ignored",
+            patch: "No patch available",
+            releaseAt: now + 2 * MS_DAY + 8 * 60 * 60 * 1000,
+            summary: "A recovery token embedded in firmware images can be extracted and reused to access administrative recovery functionality.",
+            timeline: [
+                ["2026-05-10", "Report sent to vendor security intake."],
+                ["2026-05-17", "Follow-up sent with firmware hashes and affected models."],
+                ["2026-06-06", "No response recorded; waiting-period publication scheduled."]
+            ]
+        },
+        {
+            id: "OV-2026-0003",
+            title: "Path traversal in backup restore package handler",
+            vendor: "StackHarbor",
+            product: "StackHarbor Backup Agent 1.9",
+            researcher: "@quietpacket",
+            researcherRep: "82 · reproducible reports",
+            vendorRep: "52 · disputed severity",
+            severity: "Critical",
+            cvss: "9.1",
+            cwe: "CWE-22",
+            status: "published",
+            statusLabel: "Published",
+            vendorState: "Partially remediated",
+            patch: "Mitigation available",
+            releaseAt: now - 18 * MS_DAY,
+            summary: "Improper archive extraction permits arbitrary file write during restore operations when a privileged operator imports a crafted backup package.",
+            timeline: [
+                ["2026-04-14", "Initial private disclosure created."],
+                ["2026-04-22", "Vendor disputed severity but confirmed extraction behavior."],
+                ["2026-05-22", "Public advisory released with mitigation guidance."]
+            ]
+        }
     ];
 
     const listEl = document.getElementById("disclosure-list");
@@ -518,66 +640,66 @@
     let selectedId = disclosures[0].id;
 
     const statusStyles = {
-      embargoed: "border-sky-300/25 bg-sky-300/10 text-sky-100",
-      waiting: "border-amber-300/25 bg-amber-300/10 text-amber-100",
-      published: "border-emerald-300/25 bg-emerald-300/10 text-emerald-100",
-      ignored: "border-rose-300/25 bg-rose-300/10 text-rose-100"
+        embargoed: "border-sky-300/25 bg-sky-300/10 text-sky-100",
+        waiting: "border-amber-300/25 bg-amber-300/10 text-amber-100",
+        published: "border-emerald-300/25 bg-emerald-300/10 text-emerald-100",
+        ignored: "border-rose-300/25 bg-rose-300/10 text-rose-100"
     };
 
     function formatDate(ts) {
-      return new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(new Date(ts));
+        return new Intl.DateTimeFormat("en", {month: "short", day: "numeric", year: "numeric"}).format(new Date(ts));
     }
 
     function formatDistance(ts) {
-      const diff = ts - Date.now();
-      const abs = Math.abs(diff);
-      const days = Math.floor(abs / MS_DAY);
-      const hours = Math.floor((abs / (60 * 60 * 1000)) % 24);
-      const minutes = Math.floor((abs / (60 * 1000)) % 60);
-      const value = days > 0 ? `${days}d ${hours}h` : `${hours}h ${minutes}m`;
-      return diff >= 0 ? value : `${value} ago`;
+        const diff = ts - Date.now();
+        const abs = Math.abs(diff);
+        const days = Math.floor(abs / MS_DAY);
+        const hours = Math.floor((abs / (60 * 60 * 1000)) % 24);
+        const minutes = Math.floor((abs / (60 * 1000)) % 60);
+        const value = days > 0 ? `${days}d ${hours}h` : `${hours}h ${minutes}m`;
+        return diff >= 0 ? value : `${value} ago`;
     }
 
     function visibleDisclosures() {
-      const query = searchEl.value.trim().toLowerCase();
-      const severity = severityEl.value;
-      return disclosures.filter((item) => {
-        const haystack = [
-          item.id,
-          item.title,
-          item.vendor,
-          item.product,
-          item.researcher,
-          item.researcherRep,
-          item.vendorRep,
-          item.severity,
-          item.cwe,
-          item.vendorState,
-          item.patch
-        ].join(" ").toLowerCase();
-        const matchesQuery = !query || haystack.includes(query);
-        const matchesSeverity = severity === "all" || item.severity === severity;
-        const matchesFilter = activeFilter === "all" || item.status === activeFilter || (activeFilter === "ignored" && item.vendorState === "Ignored");
-        return matchesQuery && matchesSeverity && matchesFilter;
-      });
+        const query = searchEl.value.trim().toLowerCase();
+        const severity = severityEl.value;
+        return disclosures.filter((item) => {
+            const haystack = [
+                item.id,
+                item.title,
+                item.vendor,
+                item.product,
+                item.researcher,
+                item.researcherRep,
+                item.vendorRep,
+                item.severity,
+                item.cwe,
+                item.vendorState,
+                item.patch
+            ].join(" ").toLowerCase();
+            const matchesQuery = !query || haystack.includes(query);
+            const matchesSeverity = severity === "all" || item.severity === severity;
+            const matchesFilter = activeFilter === "all" || item.status === activeFilter || (activeFilter === "ignored" && item.vendorState === "Ignored");
+            return matchesQuery && matchesSeverity && matchesFilter;
+        });
     }
 
     function renderList() {
-      const rows = visibleDisclosures();
-      listEl.innerHTML = "";
+        const rows = visibleDisclosures();
+        listEl.innerHTML = "";
 
-      if (!rows.length) {
-        listEl.innerHTML = `<div class="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-sm text-slate-300">No demo disclosures match the current filters.</div>`;
-        return;
-      }
+        if (!rows.length) {
+            listEl.innerHTML = `<div class="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-sm text-slate-300">No demo disclosures match the current filters.</div>`;
+            return;
+        }
 
-      rows.forEach((item) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "disclosure-row w-full rounded-2xl border border-white/10 bg-white/[0.035] p-4 text-left transition hover:border-sky-300/40 hover:bg-sky-300/10";
-        button.setAttribute("aria-selected", String(item.id === selectedId));
-        button.dataset.id = item.id;
-        button.innerHTML = `
+        rows.forEach((item) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "disclosure-row w-full rounded-2xl border border-white/10 bg-white/[0.035] p-4 text-left transition hover:border-sky-300/40 hover:bg-sky-300/10";
+            button.setAttribute("aria-selected", String(item.id === selectedId));
+            button.dataset.id = item.id;
+            button.innerHTML = `
           <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
             <div>
               <div class="flex flex-wrap items-center gap-2">
@@ -599,48 +721,48 @@
             </div>
           </div>
         `;
-        button.addEventListener("click", () => {
-          selectedId = item.id;
-          renderList();
-          renderDetail();
+            button.addEventListener("click", () => {
+                selectedId = item.id;
+                renderList();
+                renderDetail();
+            });
+            listEl.appendChild(button);
         });
-        listEl.appendChild(button);
-      });
     }
 
     function renderDetail() {
-      const item = disclosures.find((entry) => entry.id === selectedId) || disclosures[0];
-      document.getElementById("detail-title").textContent = item.title;
-      document.getElementById("detail-status").textContent = item.statusLabel;
-      document.getElementById("detail-status").className = `rounded-full border px-3 py-1 text-xs font-bold ${statusStyles[item.status]}`;
-      document.getElementById("detail-summary").textContent = item.summary;
-      document.getElementById("detail-researcher").textContent = item.researcher;
-      document.getElementById("detail-cvss").textContent = `${item.cvss} · ${item.severity}`;
-      document.getElementById("detail-vendor").textContent = `${item.vendor} · ${item.vendorState}`;
-      document.getElementById("detail-patch").textContent = item.patch;
-      document.getElementById("detail-researcher-rep").textContent = item.researcherRep;
-      document.getElementById("detail-vendor-rep").textContent = item.vendorRep;
+        const item = disclosures.find((entry) => entry.id === selectedId) || disclosures[0];
+        document.getElementById("detail-title").textContent = item.title;
+        document.getElementById("detail-status").textContent = item.statusLabel;
+        document.getElementById("detail-status").className = `rounded-full border px-3 py-1 text-xs font-bold ${statusStyles[item.status]}`;
+        document.getElementById("detail-summary").textContent = item.summary;
+        document.getElementById("detail-researcher").textContent = item.researcher;
+        document.getElementById("detail-cvss").textContent = `${item.cvss} · ${item.severity}`;
+        document.getElementById("detail-vendor").textContent = `${item.vendor} · ${item.vendorState}`;
+        document.getElementById("detail-patch").textContent = item.patch;
+        document.getElementById("detail-researcher-rep").textContent = item.researcherRep;
+        document.getElementById("detail-vendor-rep").textContent = item.vendorRep;
 
-      const timerLabel = document.getElementById("timer-label");
-      const timerValue = document.getElementById("timer-value");
-      const timerHelp = document.getElementById("timer-help");
+        const timerLabel = document.getElementById("timer-label");
+        const timerValue = document.getElementById("timer-value");
+        const timerHelp = document.getElementById("timer-help");
 
-      if (item.status === "published") {
-        timerLabel.textContent = "Published";
-        timerValue.textContent = formatDistance(item.releaseAt);
-        timerHelp.textContent = "This advisory is now part of the public archive and available to public feeds. Machine-readable metadata would be exposed by API, JSON, RSS, and webhooks.";
-        delayButton.disabled = true;
-        delayButton.classList.add("opacity-40", "cursor-not-allowed");
-      } else {
-        timerLabel.textContent = item.status === "waiting" ? "Waiting period ends in" : "Embargo ends in";
-        timerValue.textContent = formatDistance(item.releaseAt);
-        timerHelp.textContent = item.status === "waiting" ? "The researcher can still cancel, delay, modify, or delete before automatic publication." : "The disclosure remains private while the researcher coordinates externally.";
-        delayButton.disabled = false;
-        delayButton.classList.remove("opacity-40", "cursor-not-allowed");
-      }
+        if (item.status === "published") {
+            timerLabel.textContent = "Published";
+            timerValue.textContent = formatDistance(item.releaseAt);
+            timerHelp.textContent = "This advisory is now part of the public archive and available to public feeds. Machine-readable metadata would be exposed by API, JSON, RSS, and webhooks.";
+            delayButton.disabled = true;
+            delayButton.classList.add("opacity-40", "cursor-not-allowed");
+        } else {
+            timerLabel.textContent = item.status === "waiting" ? "Waiting period ends in" : "Embargo ends in";
+            timerValue.textContent = formatDistance(item.releaseAt);
+            timerHelp.textContent = item.status === "waiting" ? "The researcher can still cancel, delay, modify, or delete before automatic publication." : "The disclosure remains private while the researcher coordinates externally.";
+            delayButton.disabled = false;
+            delayButton.classList.remove("opacity-40", "cursor-not-allowed");
+        }
 
-      const timeline = document.getElementById("timeline");
-      timeline.innerHTML = item.timeline.map(([date, text]) => `
+        const timeline = document.getElementById("timeline");
+        timeline.innerHTML = item.timeline.map(([date, text]) => `
         <li class="relative pl-2">
           <span class="status-dot absolute -left-[1.42rem] top-1.5 h-2.5 w-2.5 rounded-full bg-sky-300"></span>
           <time class="block text-xs font-semibold text-slate-500">${date}</time>
@@ -650,40 +772,40 @@
     }
 
     function updateStats() {
-      document.querySelector('[data-stat="pending"]').textContent = disclosures.filter((item) => item.status !== "published").length;
-      document.querySelector('[data-stat="published"]').textContent = disclosures.filter((item) => item.status === "published").length;
-      document.querySelector('[data-stat="ignored"]').textContent = disclosures.filter((item) => item.vendorState === "Ignored" || item.vendorState === "No response").length;
+        document.querySelector('[data-stat="pending"]').textContent = disclosures.filter((item) => item.status !== "published").length;
+        document.querySelector('[data-stat="published"]').textContent = disclosures.filter((item) => item.status === "published").length;
+        document.querySelector('[data-stat="ignored"]').textContent = disclosures.filter((item) => item.vendorState === "Ignored" || item.vendorState === "No response").length;
     }
 
     function updateHeroCountdown() {
-      const next = disclosures.filter((item) => item.status !== "published").sort((a, b) => a.releaseAt - b.releaseAt)[0];
-      document.getElementById("hero-embargo-count").textContent = next ? formatDistance(next.releaseAt) : "None";
-      if (selectedId) renderDetail();
+        const next = disclosures.filter((item) => item.status !== "published").sort((a, b) => a.releaseAt - b.releaseAt)[0];
+        document.getElementById("hero-embargo-count").textContent = next ? formatDistance(next.releaseAt) : "None";
+        if (selectedId) renderDetail();
     }
 
     filterButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        activeFilter = button.dataset.filter;
-        filterButtons.forEach((btn) => {
-          const active = btn === button;
-          btn.className = active
-            ? "filter-btn rounded-full border border-sky-300/40 bg-sky-300/15 px-3 py-2 text-xs font-bold text-sky-100"
-            : "filter-btn rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-bold text-slate-300";
+        button.addEventListener("click", () => {
+            activeFilter = button.dataset.filter;
+            filterButtons.forEach((btn) => {
+                const active = btn === button;
+                btn.className = active
+                    ? "filter-btn rounded-full border border-sky-300/40 bg-sky-300/15 px-3 py-2 text-xs font-bold text-sky-100"
+                    : "filter-btn rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-bold text-slate-300";
+            });
+            renderList();
         });
-        renderList();
-      });
     });
 
     [searchEl, severityEl].forEach((el) => el.addEventListener("input", renderList));
 
     delayButton.addEventListener("click", () => {
-      const item = disclosures.find((entry) => entry.id === selectedId);
-      if (!item || item.status === "published") return;
-      item.releaseAt += 7 * MS_DAY;
-      item.timeline.push([formatDate(Date.now()), "Researcher delayed public release by 7 days in the demo workflow."]);
-      renderList();
-      renderDetail();
-      updateHeroCountdown();
+        const item = disclosures.find((entry) => entry.id === selectedId);
+        if (!item || item.status === "published") return;
+        item.releaseAt += 7 * MS_DAY;
+        item.timeline.push([formatDate(Date.now()), "Researcher delayed public release by 7 days in the demo workflow."]);
+        renderList();
+        renderDetail();
+        updateHeroCountdown();
     });
 
     document.getElementById("year").textContent = new Date().getFullYear();
@@ -692,6 +814,6 @@
     renderDetail();
     updateHeroCountdown();
     setInterval(updateHeroCountdown, 60 * 1000);
-  </script>
+</script>
 </body>
 </html>
